@@ -1,0 +1,24 @@
+PROJEKT - generowanie labiryntów
+
+Do generowania labiryntów użyłem lekko zmodyfikowanego algorytmu Kruskala.
+
+Zaczynam od stworzenia grafu o podanej przez użytkownika liczbie wierzchołków
+w pionie (kolumny) i w poziomie (wiersze). Dzięki temu, graf przyjmuje "prostokątny"
+kształt. Następnie, łączę sąsiadujące wierzchołki krawędziami. Krawędzie, dzięki tej
+reprezentacji, są pionowe lub poziome. Otrzymujemy więc graf, który przypomina siatkę
+labiryntu.
+
+Mamy więc już "szkielet", teraz trzeba jeszcze wygenerować sam labirynt. Tutaj wkracza 
+algorytm Kruskala. Wcześniej pisałem, że jest on tutaj lekko zmodyfikowany. Modyfikacja
+polega na tym, że kolejnych krawędzi nie wybieram od najmniejszej wagi, a po prostu losuję
+je (a właściwie to mieszam za pomocą std::shuffle()) - jest to równoznaczne z przydzieleniem
+losowych wag krawędziom, a potem wybieraniu ich zaczynając od najmniejszej wagi, ale wymagałoby to
+przechowywania dodatkowej informacji o wadze właśnie, w mojej implementacji nie jest to konieczne.
+
+Algorytm kruskala zwraca minimalne drzewo rozpinające wcześniej utworzonego grafu, którego później
+używam do stworzenia labiryntu. W jaki sposób jednak jest to drzewo związane z labiryntem? Wyobraźmy
+sobie, że każdy wierzchołek grafu reprezentuje jedną komórkę labiryntu. Pomiędzy komórkami są ściany.
+Aby wiedzieć, czy daną ścianę narysować, sprawdzamy, czy komórki, które miałaby ona rozdzielać, łączy
+krawędź minimalnego drzewa rozpinającego. Jeśli tak - ściany nie ma, jeśli nie - ściana jest. Tak
+właśnie powstaje labirynt.
+
